@@ -26,16 +26,16 @@ class Utils:
             for element in Goods.NLpillow.target_element_list:
                 results = soup.find_all(element[0], element[1])
                 for element in results:
-                    if self._check_active_status(element):
+                    if self._check_active_status(element, target_element='class', target_element='active', disabled_status='btn-disabled'):
                         self.line.notify(f'{datetime.now()} - {element.text} is available now\n{Goods.NLpillow.url}')
         except Exception as e:
             raise f"Error occurred in function: {self._check_NL_pillow_status.__name__} - {e}"
 
-    def _check_active_status(self, element: str, target_element: str = 'class', target_status: str = 'active') -> bool:
+    def _check_active_status(self, element: str, target_element: str, target_status: str, disabled_status: str = None) -> bool:
         try:
-            if element[target_element] == target_status:
-                return True
+            if element[target_element] != target_status or element[target_element] == disabled_status:
+                return False
         except Exception as e:
             raise f"Error occurred in function: {self._check_active_status.__name__} - {e}"
         
-        return False
+        return True
