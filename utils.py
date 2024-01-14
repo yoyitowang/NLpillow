@@ -26,7 +26,7 @@ class Utils:
             for element in Goods.NLpillow.target_element_list:
                 results = soup.find_all(element[0], element[1])
                 for element in results:
-                    if self._check_active_status(element):
+                    if not self._check_active_status(element):
                         self.line.notify(f'{datetime.now()} - {element.text} is available now')
         except Exception as e:
             raise f"Error occurred in function: {self._check_NL_pillow_status.__name__} - {e}"
